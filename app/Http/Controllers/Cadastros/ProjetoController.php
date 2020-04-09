@@ -36,9 +36,9 @@ class ProjetoController extends Controller{
 	  //popula campos com as redes cadastradas
 	  $redesLista = DB::table('empresas_redes')
             ->where('situacao', 'A')
-			->orderBy('rede')
+			->orderBy('nomerede')
 			->get()
-			->pluck('rede','id');
+			->pluck('nomerede','id');
 
 	  //popula campos com as franquias cadastradas
 	  $usersLista = DB::table('users')
