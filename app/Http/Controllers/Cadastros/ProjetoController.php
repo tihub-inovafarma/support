@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers\Cadastros;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -9,123 +8,114 @@ use App\Http\Requests;
 use App\Http\Requests\ProjetoRequest;
 use App\Http\Controllers\Controller;
 use App\Projetos;
+use App\Empresas;
+use App\Users;
 use App\Posts;
 
 
 class ProjetoController extends Controller{
-
+/**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
 
 
     public function Index(){
-     //mostrar tela inicial cadastro de empresas
-    
-      $empresasLista = DB::table('projetos')
-      ->join('empresas', 'empresas.id', '=', 'projetos.id_empresa')
-      ->leftjoin('municipios_br', 'empresas.codigo_ibge', '=', 'municipios_br.codigo_ibge')
-      ->leftjoin('users', 'projetos.id_analista', '=', 'users.id')
-			->select(DB::raw("projetos.id,empresas.nome_fantasia,empresas.telefone_fixo,users.name,responsavel_implantacao,data_inicio,data_fim,data_negociada,status,id_cidade,concat(nome_municipio,' / ',uf) as cidade"))
-			->orderBy('data_inicio')
-			->get(); 	 
-      return view('cadastros.projetos.index',compact('empresasLista')
-      );
+          //mostrar tela inicial mostra projetos
+            $empresasLista = DB::table('projetos')
+            ->join('empresas', 'empresas.id', '=', 'projetos.id_empresa')
+            ->leftjoin('municipios_br', 'empresas.codigo_ibge', '=', 'municipios_br.codigo_ibge')
+            ->leftjoin('users', 'projetos.id_analista', '=', 'users.id')
+            ->select(DB::raw("projetos.id,empresas.nome_fantasia,empresas.telefone_fixo,users.name,responsavel_implantacao,data_inicio,data_fim,data_negociada,status,id_cidade,concat(nome_municipio,' / ',uf) as cidade"))
+            ->orderBy('data_inicio')
+            ->where('representante', '=','1')
+            ->get(); 	 
+            return view('cadastros.projetos.index',compact('empresasLista')
+            );
     }
 
-    public function Novo()
-    //direciona para incluir novo registro
-    {
-	  //popula campos com as redes cadastradas
-	  $redesLista = DB::table('empresas_redes')
-            ->where('situacao', 'A')
-			->orderBy('nomerede')
-			->get()
-			->pluck('nomerede','id');
-
-	  //popula campos com as franquias cadastradas
-	  $usersLista = DB::table('users')
-            ->where('tipo', '1')
-			->orderBy('name')
-			->get()
-			->pluck('name','id');			
-			
-    //popula campos com as cidades cadastradas
-    
 
     
-	  $empresasLista = DB::table('empresas')
-	 ->get()
-	  ->pluck('nome_fantasia','id','inscricao_federal');
-
-			
-      return view('cadastros.projetos.projeto',compact('usersLista','empresasLista'));
+    public function create(){
+      $empresasLista = DB::table('empresas')
+      ->join('municipios_br', 'empresas.codigo_ibge', '=', 'municipios_br.codigo_ibge')
+->leftjoin('empresas_pessoas','empresas.id','=','empresa_id')
+->leftjoin('empresas_redes','empresas.RedeID','=','empresas_redes.id')
+      ->select(DB::raw("empresas.id,inscricao_federal,SUBSTRING(razao_social,1,30) as razao_social,SUBSTRING(nome_fantasia,1,40) as nome_fantasia,pessoa,telefone_fixo,telefone_celular,concat(nome_municipio,' / ',uf) as cidade, CASE representante WHEN 1 THEN 'TIHUB' WHEN 2 THEN 'MVPRIME' ELSE 'TIHUB' END AS representante "))
+->where('representante', '=','1')
+->get(); 	 
+          return view('cadastros.projetos.projeto',compact('empresasLista'));
     }
 
-    public function Salvar(Request $request){
-    
+
+
+    public function store(Request $request){
     $projeto = new Projetos();
-    
- 
+    //separa intervalo de dados para persistir no banco
     $data  = $request->input('datefilter');
     $result = explode(" - ", $data);
-
     $time1 = strtotime($result[0]);
     $data1 = date('Y-m-d',$time1);
     $time2 = strtotime($result[1]);
     $data2 = date('Y-m-d',$time2);
 
-
-
-		$projeto->id_empresa = $request->input('tEmpresa');
+		$projeto->id_empresa = $request->input('id_empresa');
 		$projeto->data_inicio = $data1;
     $projeto->data_fim = $data2;
-    $projeto->data_negociada = $request->input('data_negociada');
+    $projeto->data_negociada = $request->input('tData_negocial');
     $projeto->natureza_implantacao = $request->input('natureza_implantacao');
-    $projeto->responsavel_implantacao = $request->input('responsavel_implantacao');
+    $projeto->responsavel_implantacao = $request->input('tResponsavel');
     $projeto->tipo_farmacia = $request->input('tipo_farmacia');
     $projeto->regime_tributario = $request->input('regime_tributario');
     $projeto->id_analista = $request->input('id_analista');
-    $projeto->id_agente_comercial = $request->input('id_agente_comercial'); 
+    $projeto->agente_comercial = $request->input('agente_comercial'); 
+    $projeto->imp_cpa = isset($request->cpa)? 1 : 0;
+    $projeto->imp_cpr = isset($request->cpr)? 1 : 0;
+    $projeto->imp_prod = isset($request->prd)? 1 : 0;
+    $projeto->imp_cli = isset($request->cli)? 1 : 0;
+    $projeto->imp_out = isset($request->out)? 1 : 0;
+    $projeto->pbm_fp = isset($request->fp)? 1 : 0;
+    $projeto->pbm_trn = isset($request->trn)? 1 : 0;
+    $projeto->pbm_func = isset($request->func)? 1 : 0;
+    $projeto->pbm_epha = isset($request->eph)? 1 : 0;
+    $projeto->pbm_vd = isset($request->vd)? 1 : 0;
+    $projeto->pbm_phar = isset($request->phar)? 1 : 0;
+    $projeto->pbm_pec = isset($request->pec)? 1 : 0;
+    $projeto->pbm_obj = isset($request->obj)? 1 : 0;
+    $projeto->pbm_rec = isset($request->rec)? 1 : 0;
+    $projeto->tef = isset($request->tef)? 1 : 0;
+    $projeto->gest_comp = isset($request->tef)? 1 : 0;
+    $projeto->fiscal_gest_trib = isset($request->fiscal_gest_trib)? 1 : 0;
+    $projeto->fiscal_sped = isset($request->fiscal_sped)? 1 : 0;
+    $projeto->fiscal_sintegra = isset($request->fiscal_sintegra)? 1 : 0;
+    $projeto->fiscal_outros = isset($request->fiscal_outros)? 1 : 0;
+    $projeto->fiscal_msg_outros = $request->input('tfiscal_outros'); 
     $projeto->status = '1';
-   
-
-
-	
-
-
 		$projeto->save();
-		
-        return redirect()->route('Cadastros.Projetos1');
+        return redirect()->route('Projetos');
     }
 
     
 	
-     public function Editar($id)
+     public function show($id)
      //direciona para editar o registro selecionado
     {
-	  $projetosDados = Projetos::find($id);	
-	  
-	  $redesLista = DB::table('empresas_redes')
-            ->where('situacao', 'A')
-			->orderBy('rede')
-			->get()
-			->pluck('rede','id');
+    $projetosDados = Projetos::find($id);	
+
+    $usersLista = DB::table('users')
+    ->where('tipo', '1')
+    ->orderBy('name')
+    ->get()
+    ->pluck('name','id');			
+
+    $empresasLista = Empresas::all();
+    return view('cadastros.projetos.editar',compact('projetosDados','empresasLista','usersLista'));
+	 
+   
+	 
 			
-	  //popula campos com as franquias cadastradas
-	  $franquiasLista = DB::table('empresas_franquias')
-            ->where('situacao', 'A')
-			->orderBy('franquia')
-			->get()
-			->pluck('franquia','id');
-			
-	  //popula campos com as cidades cadastradas
-	  $cidadesLista = DB::table('municipios_br')
-            ->select(DB::raw('CONCAT(nome_municipio," - ",uf) AS municipio'), 'codigo_ibge')
-			->whereIn('uf',['PR','SC','RS'])
-            ->groupBy('uf','nome_municipio','codigo_ibge')
-			->orderBy('nome_municipio')
-            ->get()
-			->pluck('municipio','codigo_ibge');
-			
-      return view('cadastros.projetos.editar',compact('projetosDados','redesLista','franquiasLista','cidadesLista'));
+    
     }
 
     public function Atualizar(ProjetoRequest $request, $id)
@@ -162,100 +152,6 @@ class ProjetoController extends Controller{
 		
         return redirect()->route('Cadastros.Empresas.Editar',$updEmpresa->id)->withSuccess(['Atualizado com sucesso!']);			
     }
-	
-    public function BuscaCep(Request $request)
-	//Funcao para buscar o endereco conforme cep informado
-    {
-      $data = [];
-      $cep = $request->all();
-	  //$cep = '85.806-000';
-	  if (!empty($cep)) {
-		  $data = DB::table("cep_br")
-		     ->join('municipios_br', 'cep_br.codigo_ibge', '=', 'municipios_br.codigo_ibge')
-			 ->select(DB::raw('CONCAT(tipo_endereco," ",endereco) AS endereco'), 'bairro','cep_br.codigo_ibge','nome_municipio','uf')
-		     ->where('cep','=',$cep)
-		     ->get();
-		  
-		  return response()->json($data);
-	  } else {
-		  return response()->json($data);
-	  }	  
-    }
 
-
+    
 }	
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
-    }
-
-    public function adicionar()
-    {
-      return view('cadastros.empresas.adicionar');
-    }
-
-    public function salvar(request $req)
-    {
-        //executa o salvar no banco de dados
-      $dados = $req->all();
-
-      Empresas::create($dados);
-
-      return redirect()->route('cadastros.empresas');
-    }
-
-    public function Update($id)
-     //executa a e no banco de dados
-    {
-      $registro = Empresas::find($id);
-      return view('cadastros.empresas.update',compact('registro'));
-    }
-
-    public function find(Request $request)
-    {
-        $term = trim($request->q);
-
-        if (empty($term)) {
-            return \Response::json([]);
-        }
-
-        $tags = Empresas::search($term)->limit(5)->get();
-
-        $formatted_tags = [];
-
-        foreach ($tags as $tag) {
-            $formatted_tags[] = ['id' => $tag->id, 'text' => $tag->nome_fantasia];
-        }
-
-        return \Response::json($formatted_tags);
-    }
-    public function busca(Request $request)
-    {
-    	$data = [];
-
-
-        if($request->has('q')){
-            $search = $request->q;
-            $data = DB::table("empresas")
-            		->select("id","nome_fantasia")
-            		->where('nome_fantasia','LIKE',"%$search%")
-            		->get();
-        }
-
-
-        return response()->json($data);
-    }
-}
-*/

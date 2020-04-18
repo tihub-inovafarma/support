@@ -58,7 +58,7 @@
             </div>
             <!-- /.card-header -->
             <!-- form start -->
-			{!! Form::open(['route' => 'Cadastros.Projetos.Salvar', 'role' => 'form', 'enctype' => 'multipart/form-data']) !!}
+			{!! Form::open(['route' => 'Projetos.store', 'role' => 'form', 'enctype' => 'multipart/form-data']) !!}
 			    @include('cadastros.projetos._form')
 			{!! Form::close() !!}
           </div>

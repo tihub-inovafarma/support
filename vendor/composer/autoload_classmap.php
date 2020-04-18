@@ -30,6 +30,7 @@ return array(
     'App\\Http\\Controllers\\Downloads\\DownloadController' => $baseDir . '/app/Http/Controllers/Downloads/DownloadController.php',
     'App\\Http\\Controllers\\Downloads\\DownloadVersaoController' => $baseDir . '/app/Http/Controllers/Downloads/DownloadVersaoController.php',
     'App\\Http\\Controllers\\HomeController' => $baseDir . '/app/Http/Controllers/HomeController.php',
+    'App\\Http\\Controllers\\PhotoController' => $baseDir . '/app/Http/Controllers/PhotoController.php',
     'App\\Http\\Kernel' => $baseDir . '/app/Http/Kernel.php',
     'App\\Http\\Middleware\\Authenticate' => $baseDir . '/app/Http/Middleware/Authenticate.php',
     'App\\Http\\Middleware\\CheckForMaintenanceMode' => $baseDir . '/app/Http/Middleware/CheckForMaintenanceMode.php',

@@ -202,7 +202,7 @@ return [
         ],
         [
             'text' => 'Projetos',
-            'url'  => 'cadastros/Projetos',
+            'url'  => 'Projetoss',
             'icon' => 'nav-icon fas fa-tasks',
         ],
         [

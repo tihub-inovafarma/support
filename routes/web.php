@@ -108,25 +108,8 @@ Route::get('/download/Etiquetas', ['as'=>'Download.Etiquetas','uses'=>'Downloads
 Route::get('/download/Util', ['as'=>'Download.Util','uses'=>'Downloads\DownloadController@util']);
 
 
-
-
-
-
-/*
- * Rotas do cadastro de projetos
- */
-Route::get ('/cadastros/Projetos',               ['as'=>'Cadastros.Projetos',          'uses'=>'Cadastros\ProjetoController@Index']);
-Route::get ('/cadastros/Projetos/novo',          ['as'=>'Cadastros.Projetos.Novo',     'uses'=>'Cadastros\ProjetoController@Novo']);
-Route::post('/cadastros/Projetos/salvar',        ['as'=>'Cadastros.Projetos.Salvar',   'uses'=>'Cadastros\ProjetoController@Salvar']);
-Route::get ('/cadastros/Projetos/editar/{id}',   ['as'=>'Cadastros.Projetos.Editar',   'uses'=>'Cadastros\ProjetoController@Editar']);
-Route::post('/cadastros/Projetos/atualizar/{id}',['as'=>'Cadastros.Projetos.Atualizar','uses'=>'Cadastros\ProjetoController@Atualizar']);
-Route::get ('/cadastros/Projetos/busca_cep',     ['as'=>'Cadastros.Projetos.BuscaCep' ,'uses'=>'Cadastros\ProjetoController@BuscaCep']);
-Route::post('/cadastros/Projetos/busca_cep',     ['as'=>'Cadastros.Projetos.BuscaCep' ,'uses'=>'Cadastros\ProjetoController@BuscaCep']);
-
-Route::resource('Projetos','Cadastros\ProjetoController');
-
-
-
+//Rotas do cadastro de projetos
+Route::resource('Projetos', 'Cadastros\ProjetoController');
 
 
 Route::post('/cadastros/Alertas',['as'=>'cadastro.alerta','uses'=>'Cadastros\AlertaController@Insert']);

@@ -6,14 +6,14 @@
 <div class="card">
   <div class="card-header">
     <h3 class="card-title">Projetos</h3>
-    <a href="{{ route('Cadastros.Projetos.Novo')}}"class="btn btn-success float-right" role="button" aria-pressed="true">Adicionar Projetos</a>
+    <a href="{{ route('Projetos.create')}}"class="btn btn-success float-right" role="button" aria-pressed="true">Adicionar Projetos</a>
     <div class="card-tools">
 
         </div>
       </div>
 
       <div class="card-body p-0">
-        <table id="datatable-project" class="table Projeto">
+        <table id="datatable" class="table Projeto">
           <thead>
             <tr>
               <th style="width: 1%">Id</th>
@@ -25,7 +25,7 @@
           </thead>
           <tbody>
           @foreach($empresasLista as $registro)
-          <tr data-href="{{ route('Cadastros.Projetos.Editar',$registro->id)}}" style="cursor:pointer">
+          <tr data-href="{{ route('Projetos.show',$registro->id)}}" style="cursor:pointer">
                   <td>{{ $registro->id }}</td>
 				  <td>{{ $registro->nome_fantasia }}
           <br/>
@@ -77,16 +77,7 @@
   @section('css')
 
 
-<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
-  <!-- Ionicons -->
-   <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-  <!-- dataTable.net -->
-   <link href="https://cdn.datatables.net/v/dt/dt-1.10.20/datatables.min.css" rel="stylesheet">
-   <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet">
-   <link href="https://cdn.datatables.net/buttons/1.6.1/css/buttons.dataTables.min.css" rel="stylesheet">
+   
   @stop
 
   @section('js')
@@ -94,20 +85,8 @@
    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
   <!-- dataTable.net -->
 
-   <script src="https://cdn.datatables.net/v/dt/dt-1.10.20/datatables.min.js"></script>
-   <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
-   <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
-
-   <script src="https://cdn.datatables.net/buttons/1.6.1/js/dataTables.buttons.min.js"></script>
-   <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
-   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
-   <script src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.html5.min.js"></script>
-   <script src="https://cdn.datatables.net/buttons/1.2.1/js/buttons.print.min.js"></script>
-
-
-   <script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
-
+  
+   
 
   <!-- Slimscroll -->
    <script src="https://cdnjs.cloudflare.com/ajax/libs/jQuery-slimScroll/1.3.8/jquery.slimscroll.min.js"></script>
