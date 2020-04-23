@@ -24,9 +24,9 @@
             </tr>
           </thead>
           <tbody>
-          @foreach($empresasLista as $registro)
-          <tr data-href="{{ route('Projetos.show',$registro->id)}}" style="cursor:pointer">
-                  <td>{{ $registro->id }}</td>
+          @foreach($projetosLista ?? '' as $registro)
+          <tr data-href="{{ route('Projetos.edit',$registro->id_projetos)}}" style="cursor:pointer">
+                  <td>{{ $registro->id_projetos }}</td>
 				  <td>{{ $registro->nome_fantasia }}
           <br/>
                           <small>

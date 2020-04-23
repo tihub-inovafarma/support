@@ -5,8 +5,8 @@
         <div class="form-group col-md-3">
             <label for="tEmpresa">Empresa:</label>
             <select id="id_empresa" name="id_empresa" class="company-show-search form-control select2">
-
-               
+                <option value="{{isset($projetosDados->id) ? $projetosDados->id : ''}}">
+                    {{isset($projetosDados->nome_fantasia) ? $projetosDados->nome_fantasia : ''}}</option>
                 @foreach($empresasLista as $registro)
                 <option value="{{ $registro->id}}">{!! $registro->nome_fantasia !!} </option>
                 @endforeach
@@ -25,7 +25,7 @@
         <div class="form-group col-md-3">
             {!! Form::label('tPeriodo','Periodo de Implantação:') !!}
             <input type="text" class="form-control" name="datefilter" autocomplete="off"
-                value="{{isset($projetosDados->data_inicio) ? date('d-m-Y' , strtotime($projetosDados->data_inicio))  : ''}}  {{isset($projetosDados->data_fim) ? date('d-m-Y' , strtotime($projetosDados->data_fim))  : ''}}" />
+                value="{{isset($projetosDados->data_inicio) ? date('d-m-Y' , strtotime($projetosDados->data_inicio))  : ''}} - {{isset($projetosDados->data_fim) ? date('d-m-Y' , strtotime($projetosDados->data_fim))  : ''}}" />
         </div>
         <div class="form-group col-md-3">
             <label>Data Negociavél?</label>
@@ -160,6 +160,12 @@
                                 <label for="out">Outros</label>
                             </div>
                         </div>
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label>Outras Informações importacao</label>
+                        <textarea class="form-control" rows="2" name="timport_info" placeholder="Descreva ...">{{isset($projetosDados->import_info) ? $projetosDados->import_info : ''}}
+                        </textarea>
+                        <small class="text-danger">{{ $errors->first('timport_info') }}</small>
                     </div>
                 </div>
             </div>
@@ -321,166 +327,218 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-group col-md-12">
 
-                        <input type="text" style="text-transform: uppercase" class="form-control" name="tfiscal_outros"
-                            placeholder="Descreva Outros"
-                            value="{{isset($projetosDados->fiscal_msg_outros) ? $projetosDados->fiscal_msg_outros : ''}}" />
-                        <small class="text-danger">{{ $errors->first('tfiscal_outros') }}</small>
+
+
+
+                    <div class="form-group col-md-12">
+                        <label>Outras Informações Fiscais</label>
+                        <textarea class="form-control" rows="2" name="tfiscal_outros" placeholder="Descreva ...">{{isset($projetosDados->fiscal_msg_outros) ? $projetosDados->fiscal_msg_outros : ''}}
+                        </textarea>
                     </div>
                 </div>
             </div>
         </div>
+
+
+
+
+        <div class="card  col-md-12">
+            <div class="card-header">
+                <h3 class="card-title">Informações Comerciais</h3>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-3">
+                        <div class="form-group clearfix">
+                            <label for="tValor_mensal">Investimento inicial:</label>
+                            <input type="text" id="tValor_inicial" name="tValor_inicial" placeholder="R$:"
+                                class="dinheiro form-control" style="display:inline-block" />
+                            <small class="text-danger">{{ $errors->first('tValor_inicial') }}</small>
+                        </div>
+                    </div>
+                    <div class="col-sm-2">
+                        <div class="form-group clearfix">
+                            <label for="tValor_mensal">Valor Mensalidade:</label>
+                            <input type="text" id="tValor_inicial" name="tValor_inicial" placeholder="R$:"
+                                class="dinheiro form-control" style="display:inline-block" />
+                            <small class="text-danger">{{ $errors->first('tValor_inicial') }}</small>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-2">
+                        <label for="tValor_mensal">Data 1º Mensalidade:</label>
+                        <input type="text" class="form-control" name="data_vencimento" autocomplete="off">
+
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="form-group clearfix">
+                            <label for="tValor_mensal">Faturamento Anual:</label>
+                            <input type="text" id="tValor_inicial" name="tValor_inicial" placeholder="R$:"
+                                class="dinheiro form-control" style="display:inline-block" />
+                            <small class="text-danger">{{ $errors->first('tValor_inicial') }}</small>
+                        </div>
+                    </div>
+                    <div class="col-sm-2">
+                        <div class="form-group clearfix">
+                            <label for="tValor_mensal">Numero Terminais:</label>
+                            <input type="text" id="tValor_inicial" name="tValor_inicial" class="form-control"
+                                style="display:inline-block" />
+                            <small class="text-danger">{{ $errors->first('tValor_inicial') }}</small>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
     </div>
 
-    <div class="form-group">
-        {!! Form::submit('Gravar', ['class' => 'btn btn-default btn-xs']); !!}
+
+
+
     </div>
 
-    @section('css')
-    <!-- Select2 -->
-    <link rel="stylesheet" href="{{ URL::asset('vendor/select2/css/select2.min.css') }}">
 
-    <link rel="stylesheet" href="{{ URL::asset('vendor/icheck-bootstrap/icheck-bootstrap.min.css') }}">
-    <link rel="stylesheet" href="{{ URL::asset('vendor/daterangepicker-master/daterangepicker.css') }}">
-    <link rel="stylesheet" href="{{ URL::asset('vendor/daterangepicker/daterangepicker-bs3.css') }}">
-    <style>
-    .select2 .select2-selection--single {
-        box-sizing: border-box;
-        cursor: pointer;
-        display: block;
-        height: 37px;
-        user-select: none;
-        -webkit-user-select: none;
-    }
-    </style>
-    @stop
-    @section('js')
-    <!-- jQuery UI 1.11.4 -->
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
-    <!-- Select2 -->
-    <script src="{{ URL::asset('vendor/select2/js/select2.full.min.js') }}"></script>
-    <script src="{{ URL::asset('vendor/select2/js/i18n/pt-BR.js') }}"></script>
-    <!-- InputMask -->
-    <script src="{{ URL::asset('vendor/inputmask/inputmask.min.js') }}"></script>
-    <script src="{{ URL::asset('vendor/inputmask/inputmask.date.extensions.min.js') }}"></script>
-    <script src="{{ URL::asset('vendor/inputmask/inputmask.extensions.min.js') }}"></script>
-    <script src="{{ URL::asset('vendor/inputmask/jquery.inputmask.bundle.js') }}"></script>
+</div>
+
+<div class="form-group">
+    {!! Form::submit('Gravar', ['class' => 'btn btn-default btn-xs']); !!}
+</div>
+
+@section('css')
+<!-- Select2 -->
+<link rel="stylesheet" href="{{ URL::asset('vendor/select2/css/select2.min.css') }}">
+
+<link rel="stylesheet" href="{{ URL::asset('vendor/icheck-bootstrap/icheck-bootstrap.min.css') }}">
+<link rel="stylesheet" href="{{ URL::asset('vendor/daterangepicker-master/daterangepicker.css') }}">
+<link rel="stylesheet" href="{{ URL::asset('vendor/daterangepicker/daterangepicker-bs3.css') }}">
+<style>
+.select2 .select2-selection--single {
+    box-sizing: border-box;
+    cursor: pointer;
+    display: block;
+    height: 37px;
+    user-select: none;
+    -webkit-user-select: none;
+}
+</style>
+@stop
+@section('js')
+<!-- jQuery UI 1.11.4 -->
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+<!-- Select2 -->
+<script src="{{ URL::asset('vendor/select2/js/select2.full.min.js') }}"></script>
+<script src="{{ URL::asset('vendor/select2/js/i18n/pt-BR.js') }}"></script>
+<!-- InputMask -->
+<script src="{{ URL::asset('vendor/inputmask/inputmask.min.js') }}"></script>
+<script src="{{ URL::asset('vendor/inputmask/inputmask.date.extensions.min.js') }}"></script>
+<script src="{{ URL::asset('vendor/inputmask/inputmask.extensions.min.js') }}"></script>
+<script src="{{ URL::asset('vendor/inputmask/jquery.inputmask.bundle.js') }}"></script>
+<script src="{{ URL::asset('vendor/inputmask/jquery.mask.min.js') }}"></script>
 
 
-    <script src="{{ URL::asset('vendor/daterangepicker-master/moment.min.js') }}"></script>
-    <script src="{{ URL::asset('vendor/daterangepicker-master/daterangepicker.js') }}"></script>
+<script src="{{ URL::asset('vendor/daterangepicker-master/moment.min.js') }}"></script>
+<script src="{{ URL::asset('vendor/daterangepicker-master/daterangepicker.js') }}"></script>
 
 
 
 
-    <!-- FastClick -->
-    <script src="{{ URL::asset('vendor/fastclick/fastclick.js') }}"></script>
-    <!-- Slimscroll -->
-    <script src="{{ URL::asset('vendor/slimscroll/slimscroll.min.js') }}"></script>
+<!-- FastClick -->
+<script src="{{ URL::asset('vendor/fastclick/fastclick.js') }}"></script>
+<!-- Slimscroll -->
+<script src="{{ URL::asset('vendor/slimscroll/slimscroll.min.js') }}"></script>
 
-    <script type="text/javascript">
-    $(function() {
-        //Initialize Select2 Elements
-        $('.company-show-search').select2({
-            placeholder: 'Selecione a empresa',
-            allowClear: true,
-            language: 'pt-BR'
-        });
+<script type="text/javascript">
+$(function() {
+    //Initialize Select2 Elements
+    $('.company-show-search').select2({
+        placeholder: 'Selecione a empresa',
+        allowClear: true,
+        language: 'pt-BR'
     });
+});
 
-    $('#tRede').change(function() {
-        var rede = $(this).val();
-        if (rede != 0) {
-            $('#tFG').removeAttr('disabled');
-        } else {
-            $('#tFG').val(0);
-            $('#tFG').attr('disabled', 'disabled');
+
+$('.dinheiro').mask('#.##0,00', {
+    reverse: true
+});
+
+
+
+function upper(z) {
+    v = z.value.toUpperCase();
+    z.value = v;
+}
+
+function lower(z) {
+    l = z.value.toLowerCase();
+    z.value = l;
+}
+</script>
+
+
+<script type="text/javascript">
+$(function() {
+
+    $('input[name="datefilter"]').daterangepicker({
+        autoUpdateInput: false,
+        locale: {
+            "format": "DD/MM/YYYY",
+            "separator": " - ",
+            "applyLabel": "Aplicar",
+            "cancelLabel": "Cancelar",
+            "daysOfWeek": [
+                "Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sab"
+            ],
+            "monthNames": [
+                "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto",
+                "Setembro", "Outubro", "Novembro", "Dezembro"
+            ],
+            "firstDay": 1
         }
     });
-    $("input[id*='tCnpj']").inputmask({
-        mask: ['99.999.999/9999-99'],
-        keepStatic: true
-    });
-    $("input[id*='tCep']").inputmask({
-        mask: ['99.999-999'],
-        keepStatic: true
-    });
-    $("input[id*='tTelefone']").inputmask({
-        mask: ['(99)9999-9999'],
-        keepStatic: true
-    });
-    $("input[id*='tCelular']").inputmask({
-        mask: ['(99)99999-9999'],
-        keepStatic: true
-    });
-    $("input[id*='tPessoaFone']").inputmask({
-        mask: ['(99)99999-9999'],
-        keepStatic: true
-    });
 
-    function upper(z) {
-        v = z.value.toUpperCase();
-        z.value = v;
-    }
-
-    function lower(z) {
-        l = z.value.toLowerCase();
-        z.value = l;
-    }
-    </script>
-
-
-
-    <script type="text/javascript">
-    $(function() {
-
-        $('input[name="datefilter"]').daterangepicker({
-            autoUpdateInput: false,
-            locale: {
-                "format": "DD/MM/YYYY",
-                "separator": " - ",
-                "applyLabel": "Aplicar",
-                "cancelLabel": "Cancelar",
-                "daysOfWeek": [
-                    "Dom",
-                    "Seg",
-                    "Ter",
-                    "Qua",
-                    "Qui",
-                    "Sex",
-                    "Sab"
-                ],
-                "monthNames": [
-                    "Janeiro",
-                    "Fevereiro",
-                    "Março",
-                    "Abril",
-                    "Maio",
-                    "Junho",
-                    "Julho",
-                    "Agosto",
-                    "Setembro",
-                    "Outubro",
-                    "Novembro",
-                    "Dezembro"
-                ],
-                "firstDay": 1
-            }
-        });
-
-        $('input[name="datefilter"]').on('apply.daterangepicker', function(ev, picker) {
-            $(this).val(picker.startDate.format('DD-MM-YYYY') + ' - ' + picker.endDate.format(
-                'DD-MM-YYYY'));
-
-        });
-
-        $('input[name="datefilter"]').on('cancel.daterangepicker', function(ev, picker) {
-            $(this).val('');
-        });
+    $('input[name="datefilter"]').on('apply.daterangepicker', function(ev, picker) {
+        $(this).val(picker.startDate.format('DD-MM-YYYY') + ' - ' + picker.endDate.format(
+            'DD-MM-YYYY'));
 
     });
-    </script>
+
+    $('input[name="datefilter"]').on('cancel.daterangepicker', function(ev, picker) {
+        $(this).val('');
+    });
+
+});
+</script>
 
 
-    @stop
+<script>
+$(function() {
+    $('input[name="data_vencimento"]').daterangepicker({
+
+        singleDatePicker: true,
+        showDropdowns: true,
+        minYear: 2020,
+
+        maxYear: parseInt(moment().format('YYYY'), 10),
+        locale: {
+            "format": "DD/MM/YYYY",
+            "separator": " - ",
+            "applyLabel": "Aplicar",
+            "cancelLabel": "Cancelar",
+            "daysOfWeek": [
+                "Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sab"
+            ],
+            "monthNames": [
+                "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto",
+                "Setembro", "Outubro", "Novembro", "Dezembro"
+            ],
+            "firstDay": 1
+        }
+    }, function(start, end, label) {
+
+
+    });
+});
+</script>
+
+@stop

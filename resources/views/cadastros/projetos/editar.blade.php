@@ -37,12 +37,20 @@
                     <div class="card-header">
                         <h3 class="card-title">Dados da Empresa</h3>
                     </div>
+
+                    <span class="progress-description">
+                   
+              </span>
                     <!-- /.card-header -->
                     <!-- form start -->
-                    {!! Form::open(['route' => ['Projetos.edit',$projetosDados->id], 'role' => 'form',
-                    'enctype' => 'multipart/form-data']) !!}
+
+
+                    {!! Form::open(['route' => ['Projetos.update',$projetosDados->id_projetos], 'role' => 'form', 'enctype' => 'multipart/form-data']) !!}
+                    @method('PUT')
                     @include('cadastros.projetos._form')
-                    {!! Form::close() !!}
+			{!! Form::close() !!}
+                  
+
                 </div>
                 <!-- /.general form elements -->
             </div>
