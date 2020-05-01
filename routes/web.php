@@ -110,6 +110,7 @@ Route::get('/download/Util', ['as'=>'Download.Util','uses'=>'Downloads\DownloadC
 
 //Rotas do cadastro de projetos
 Route::resource('Projetos', 'Cadastros\ProjetoController');
+Route::get('/projeto/pdf', ['as'=>'Projetos.pdf','uses'=>'Cadastros\ProjetoController@geraPdf']);
 
 
 Route::post('/cadastros/Alertas',['as'=>'cadastro.alerta','uses'=>'Cadastros\AlertaController@Insert']);

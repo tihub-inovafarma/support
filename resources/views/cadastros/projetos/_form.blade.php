@@ -25,7 +25,7 @@
         <div class="form-group col-md-3">
             {!! Form::label('tPeriodo','Periodo de Implantação:') !!}
             <input type="text" class="form-control" name="datefilter" autocomplete="off"
-                value="{{isset($projetosDados->data_inicio) ? date('d-m-Y' , strtotime($projetosDados->data_inicio))  : ''}} - {{isset($projetosDados->data_fim) ? date('d-m-Y' , strtotime($projetosDados->data_fim))  : ''}}" />
+                value="{{isset($projetosDados->data_inicio) ? date('d-m-Y' , strtotime($projetosDados->data_inicio))  : ''}}{{isset($projetosDados->data_fim) ? date('d-m-Y' , strtotime($projetosDados->data_fim))  : ''}}" />
         </div>
         <div class="form-group col-md-3">
             <label>Data Negociavél?</label>
@@ -391,12 +391,9 @@
             </div>
         </div>
     </div>
-
-
-
-
+   
     </div>
-
+    
 
 </div>
 
