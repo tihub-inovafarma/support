@@ -70,7 +70,7 @@
                     </td>
 
                     <td>
-                        @if($registro->status=='aguardando')
+                        @if($registro->status=='aguard')
                         <button type="button" class="btn btn-block btn-danger btn-flat">Aguardando</button>
                         @elseif($registro->status=='pre')
                         <button type="button" class="btn btn-block btn-info btn-flat">Pre-Implantacao</button>

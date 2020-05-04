@@ -93,7 +93,7 @@ class ProjetoController extends Controller{
     $projeto->fiscal_outros = isset($request->fiscal_outros)? 1 : 0;
     $projeto->fiscal_msg_outros = $request->input('tfiscal_outros'); 
     $projeto->import_info = $request->input('timport_info'); 
-    $projeto->status = '1';
+    $projeto->status = 'aguard';
     $projeto->save();
     
         return redirect()->route('Projetos');
@@ -136,7 +136,7 @@ class ProjetoController extends Controller{
       if($valida == 'pre'){
        
         $projeto = Projetos::findOrFail($id);
-        $projeto->status = '3';
+        $projeto->status = 'pre';
         $projeto->save();
       }else{
        
