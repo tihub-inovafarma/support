@@ -96,9 +96,8 @@ class ProjetoController extends Controller{
     $projeto->status = 'aguard';
     $projeto->save();
     
-    return redirect()
-    ->action('projetoController@index');
-
+    
+    return redirect()->route('projetos')->with('success','Projeto criado com sucesso.');
 
       //  return redirect()->route('Projetos');
     }
