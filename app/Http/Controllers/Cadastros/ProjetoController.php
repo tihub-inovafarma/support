@@ -96,7 +96,11 @@ class ProjetoController extends Controller{
     $projeto->status = 'aguard';
     $projeto->save();
     
-        return redirect()->route('Projetos');
+    return redirect()
+    ->action('projetoController@index');
+
+
+      //  return redirect()->route('Projetos');
     }
 
     
@@ -138,6 +142,8 @@ class ProjetoController extends Controller{
         $projeto = Projetos::findOrFail($id);
         $projeto->status = 'pre';
         $projeto->save();
+        return redirect()
+    ->action('projetoController@index');
       }else{
        
         $projeto = Projetos::findOrFail($id);
@@ -191,8 +197,10 @@ class ProjetoController extends Controller{
     
     
     //$teste=$id;
+    return redirect()
+    ->action('projetoController@index');
 		
-    return view('cadastros.projetos.index');
+   // return view('cadastros.projetos.index');
     }
 
     public function geraPdf(){
